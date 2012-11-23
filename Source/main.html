@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+<head>
+<title>DojoWidgetWeaver</title>
+<style>
+body {
+	min-width:400px
+}
+ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+/*fieldset{
+	border:0px;
+}
+*/
+label{
+	float:left;
+	width:120px;
+	text-align: right;
+}
+
+input[type="text"], select{
+	margin:2px 0 2px 6px;
+}
+form{
+	display: none;
+}
+
+</style>
+<script type="text/javascript" src="main.js"></script>
+</head>
+<body>
+	<h3>Welcome to Dojo Widget Weaver</h3>
+	<h4>Generate widget code fast and clean</h4>
+	
+		<fieldset style="border:1px">
+			<ul>
+				<li><input id="option1" type="radio" name="group1" onclick="showForm('');">Widget Event Connect</input></li>
+				<li><input id="option2" type="radio" name="group1" onclick="showForm('');">Publish a topic</input></li>
+				<li><input id="option3" type="radio" name="group1" onclick="showForm('');">Subscrible to a topic</input></li>
+				<li><input id="option5" type="radio" name="group1" onclick="showForm('');">Make an XHR call</input></li>
+			</ul>
+		</fieldset>
+
+
+	<form id="widget">
+	<fieldset>
+		<ul>
+			<li>
+				<label for="widgetIdValue">Widget ID:</label>
+				<input id="widgetIdValue" type="text" />
+			</li>
+		</ul>
+	</fieldset>
+	</form>
+	<form id="event">
+		<h6>Widget Event Connect</h6>
+		<fieldset>
+			<ul>
+				<li><label for="eventsValue">Events:</label>
+				<select id="eventsValue">
+					<option id="0">onclick</option>
+					<option id="1">onchange</option>
+					<option id="2">onkeypress</option>
+					<option id="3">onmouseover</option>
+				</select></li>
+				<li>
+					<label for="contextValue">Context:</label><input id="contextValue" type="text" />
+				</li>
+				<li>
+					<label for="arugmentValue">Argument:</label><input id="argumentValue" type="text" />
+				</li>
+				<li>
+					<label for="customCodeValue">Code:</label><input id="customCodeValue" type="text"/>
+				</li>
+			</ul>
+		</fieldset>
+	</form>
+	<form id="publish">
+		<h6>Publish a topic</h6>
+		<fieldset>
+			<ul>
+				<li><label for="topicValue">Topic:</label>
+				<input id="topicValue" type="text" /></li>
+			</ul>
+		</fieldset>
+	</form>
+	<form id="subscribe">
+		<h6>Subscribe to a topic</h6>
+		<fieldset>
+			<ul>
+				<li><label for="subscribeValue">Subscribe:</label>
+				<input id="subscribeValue" type="text" /></li>
+			</ul>
+		</fieldset>
+	</form>
+	<form id="customCode">
+		<h6>Add custom code</h6>
+		<fieldset>
+			<ul>
+				<li><label for="customCodeValue">Custom Code:</label>
+				<textarea id="customCodeValue"></textarea></li>
+			</ul>
+		</fieldset>
+	</form>
+	<form id="xhrCall">
+		<h6>Make an XHR Call</h6>
+		<fieldset>
+			<ul>
+				<li><label for="urlValue">URL:</label>
+				<input id="urlValue" type="text" /></li>
+				<li><label for="methodValue">Method:</label>
+				<input id="methodValue" type="text" /></li>
+				<li><label for="bodyValue">Content:</label>
+				<input id="bodyValue" type="text"/></li>
+				<li><label for="handleAsValue">Handle As:</label>
+				<select id="handleAsValue">
+					<option id="0">text</option>
+					<option id="1">json</option>
+					<option id="2">javascript</option>
+					<option id="3">xml</option>
+					<option id="4">json-comment-optional</option>
+					<option id="5">json-comment-filtered</option>
+				</select></li>
+				<li><label for="formIdValue">Form Id:</label>
+				<input id="formIdValue" type="text" /></li>
+				<li><label for="syncValue">Sync:</label>
+				<select id="syncValue">
+					<option id="0">false</option>
+					<option id="1">true</option>
+				</select></li>
+				<li><label for="timeoutValue">Time Out:</label>
+				<input id="timeoutValue" type="text"/></li>
+				<li><label for="loadValue">Load Handler:</label>
+				<textarea id="loadValue"></textarea></li>
+				<li><label for="errorValue">Error Handler:</label>
+				<textarea id="errorValue"></textarea></li>
+			</ul>
+		</fieldset>
+	</form>
+</body>
+</html>
