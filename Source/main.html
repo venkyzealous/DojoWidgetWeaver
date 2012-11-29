@@ -22,7 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. -->
 <title>DojoWidgetWeaver</title>
 <style>
 body {
-	min-width:400px
+	min-width:400px;
+	font-family: 'Tahoma';
+	font-size: 8pt;
 }
 ul {
 	list-style: none;
@@ -30,36 +32,66 @@ ul {
 	padding: 0;
 }
 
-/*fieldset{
-	border:0px;
+li{
+	vertical-align: top;
 }
-*/
+
+p{
+	
+	font-weight: bold;
+	margin:1px;
+}
+
 label{
 	float:left;
 	width:120px;
 	text-align: right;
 }
 
-input[type="text"], select{
+input[type="text"],input[type="number"], select,textarea{
 	margin:2px 0 2px 6px;
+	font-family: 'Tahoma';
+	font-size: 8pt;
+	padding-left: 2px;
+	width: 150px;
 }
 form{
 	display: none;
 }
 
+.horizontal{
+	float: left;
+}
+
+.rightHorizontal{
+	float:right;
+}
+
+.generateButton{
+	width:70px;
+	font-family: 'Tahoma';
+	font-size: 8pt;
+	font-weight: bold;
+}
+
 </style>
 <script type="text/javascript" src="main.js"></script>
+<script type="text/javascript" src="jquery-1.8.3.min.js"></script>
 </head>
 <body>
-	<h3>Welcome to Dojo Widget Weaver</h3>
-	<h4>Generate widget code fast and clean</h4>
+	<p>Dojo Widget Weaver</p>
+	<p>Generate widget code fast and clean</p>
 	
 		<fieldset style="border:1px">
-			<ul>
-				<li><input id="option1" type="radio" name="group1" onclick="showForm('');">Widget Event Connect</input></li>
-				<li><input id="option2" type="radio" name="group1" onclick="showForm('');">Publish a topic</input></li>
-				<li><input id="option3" type="radio" name="group1" onclick="showForm('');">Subscrible to a topic</input></li>
-				<li><input id="option5" type="radio" name="group1" onclick="showForm('');">Make an XHR call</input></li>
+			<ul class='horizontal'>
+				<li><input id="option1" type="radio" name="group1" >Widget Event Connect</input></li>
+				<li><input id="option2" type="radio" name="group1" >Publish a topic</input></li>
+				<li><input id="option3" type="radio" name="group1" >Subscrible to a topic</input></li>
+				<li><input id="option4" type="radio" name="group1" >Make an XHR call</input></li>
+			</ul>
+			<ul class='rightHorizontal'>
+				<li><input id="optionA" type="radio" name="group2" >&lt; dojo 1.7</input></li>
+				<li><input id="optionB" type="radio" name="group2" selected>&gt;= dojo 1.7</input></li>
 			</ul>
 		</fieldset>
 
@@ -75,7 +107,7 @@ form{
 	</fieldset>
 	</form>
 	<form id="event">
-		<h6>Widget Event Connect</h6>
+		<p>Widget Event Connect</p>
 		<fieldset>
 			<ul>
 				<li><label for="eventsValue">Events:</label>
@@ -86,19 +118,19 @@ form{
 					<option id="3">onmouseover</option>
 				</select></li>
 				<li>
-					<label for="contextValue">Context:</label><input id="contextValue" type="text" />
+					<label for="contextValue">Target:</label><input id="contextValue" type="text" />
 				</li>
 				<li>
 					<label for="arugmentValue">Argument:</label><input id="argumentValue" type="text" />
 				</li>
 				<li>
-					<label for="customCodeValue">Code:</label><input id="customCodeValue" type="text"/>
+					<label for="customCodeValue">Code:</label><textarea id="customCodeValue"></textarea>
 				</li>
 			</ul>
 		</fieldset>
 	</form>
 	<form id="publish">
-		<h6>Publish a topic</h6>
+		<p>Publish a topic</p>
 		<fieldset>
 			<ul>
 				<li><label for="topicValue">Topic:</label>
@@ -107,7 +139,7 @@ form{
 		</fieldset>
 	</form>
 	<form id="subscribe">
-		<h6>Subscribe to a topic</h6>
+		<p>Subscribe to a topic</p>
 		<fieldset>
 			<ul>
 				<li><label for="subscribeValue">Subscribe:</label>
@@ -116,7 +148,7 @@ form{
 		</fieldset>
 	</form>
 	<form id="customCode">
-		<h6>Add custom code</h6>
+		<p>Add custom code</p>
 		<fieldset>
 			<ul>
 				<li><label for="customCodeValue">Custom Code:</label>
@@ -125,7 +157,7 @@ form{
 		</fieldset>
 	</form>
 	<form id="xhrCall">
-		<h6>Make an XHR Call</h6>
+		<p>Make an XHR Call</p>
 		<fieldset>
 			<ul>
 				<li><label for="urlValue">URL:</label>
@@ -151,7 +183,7 @@ form{
 					<option id="1">true</option>
 				</select></li>
 				<li><label for="timeoutValue">Time Out:</label>
-				<input id="timeoutValue" type="text"/></li>
+				<input id="timeoutValue" type="number"/></li>
 				<li><label for="loadValue">Load Handler:</label>
 				<textarea id="loadValue"></textarea></li>
 				<li><label for="errorValue">Error Handler:</label>
@@ -159,5 +191,12 @@ form{
 			</ul>
 		</fieldset>
 	</form>
+	<p>Code</p>
+	<ul>
+		<li class='horizontal'><textarea id='generated' style='width:200px;height:100px'></textarea></li><li class='horizontal'>
+		<button id='generate' class='generateButton' style='display:block'>Generate</button>
+		<button class='generateButton' >Copy</button>
+		</li>
+	</ul>
 </body>
 </html>
