@@ -18,6 +18,10 @@
 
 
 var dww = {
+	templates17 : null,
+	templates16 : null,
+	selectedForm : '',
+	is17:true,
 	showForm : function (id){
 					dww.selectedForm = id;
 					var ids = ['event','publish','subscribe','xhrCall'];
@@ -26,21 +30,70 @@ var dww = {
 							document.forms[ids[i]].style.display='none';
 						else
 							document.forms[ids[i]].style.display='inline';
+
+					$('#generated').empty(); //clear previous code
+					//TODO:reset form contents
+	},
+	initialize : function(){
+			this.loadTemplates();
+
+			$(document).ready(
+				function(){
+					//hook operation radio buttons
+					$('#operations input').each(function(index,value){
+						$(value).click(function(){
+							dww.showForm(value.title);
+						});	
+					});
+					
+					//hook dojo version radio buttons change
+					$('input[name=group2]').change(function(){
+						dww.is17 = $('#optionB').is(':checked')
+					});
+
+					//hook generate button
+					$('#generate').click(function(){
+						dww.generate();
+					});
+
+				}
+			);
+
+	},
+	loadTemplates : function(){
+		if(window.templates17 != null)
+			this.templates17 = window.templates17;
+		if(window.templates16 != null)
+			this.templates16 = window.templates16;
+		
+	},
+	applyTemplate: function(values){
+		var key = this.selectedForm;
+		var script = this.is17?this.templates17[key]:this.templates16[key];
+		$(values).each(function(index,value){
+			script = script.replace('%'+(index+1),value); //1 based indexing
+		});
+		$('#generated')[0].innerText = script;
 	},
 	generate : function(){
 
-		if(dww.selectedForm == 'event'){
-			dww.generateEventCode();
+		switch(this.selectedForm){
+			case 'event':
+							this.generateEventCode();
+							break;
+			case 'publish':
+							this.generatePublishCode();				
+							break;
+			case 'subscribe':
+							this.generateSubscribeCode();	
+							break;
+			case 'xhrCall':
+							this.generateXhrCallCode();
+							break;
+			default:break;
+
 		}
-	},
-	initialize : function(){
-		document.addEventListener('DOMContentLoaded', function () {
-			document.getElementById('option1').addEventListener('click',dww.showForm.bind(undefined,'event'));
-			document.getElementById('option2').addEventListener('click',dww.showForm.bind(undefined,'publish'));
-			document.getElementById('option3').addEventListener('click',dww.showForm.bind(undefined,'subscribe'));
-			document.getElementById('option4').addEventListener('click',dww.showForm.bind(undefined,'xhrCall')); 
-			document.getElementById('generate').addEventListener('click',dww.generate); 
-		});
+
 	},
 	generateEventCode:function(){
 		var eventName = $('#eventsValue')[0].value;
@@ -48,20 +101,45 @@ var dww = {
 		var argumentValue = $('#argumentValue')[0].value;
 		var customCodeValue = $('#customCodeValue')[0].value;
 		
-		$('#generated')[0].innerText = "require([\"dojo/on\"], function(on){\n\ton("
-										+contextValue
-										+", \""
-										+eventName
-										+"\", function("
-										+argumentValue
-										+"){\n\t\t"
-										+customCodeValue
-										+"\n\n\t});\n});";
+		var args = [eventName,contextValue,argumentValue,customCodeValue];
+
+		this.applyTemplate(args);
+
 	},
-	selectedForm : ''
+	generatePublishCode:function(){
+		var topic = $('#topicValue').val();
+		var arguments = $('#topicArgs').val();
+		var values = [topic,arguments];
+		this.applyTemplate(values);
+	},
+	generateSubscribeCode:function(){
+		var topic = $('#subscribeValue').val();
+		var params = $('#subscribeParam').val();
+		var sbody = $('#subscribeBody').val();
+		var values = [topic,params,sbody];
+		this.applyTemplate(values);
+	},
+	generateXhrCallCode : function(){
+		var url = $("#urlValue").val();
+		var data = $("#bodyValue").val();
+		var query = $("#queryValue").val();
+		var method = $("#methodValue").val();
+		var timeout = $("#timeoutValue").val();
+		var handleAs = $("#handleAsValue").val();
+		var loadCode = $("#loadValue").val();
+		var errorCode = $("#errorValue").val();
+
+		var values = [ url, data, query, method, 
+		timeout, handleAs, loadCode, errorCode];
+		this.applyTemplate(values);
+	}
 };
 
 dww.initialize();
+
+
+
+
 
 
 

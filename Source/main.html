@@ -19,12 +19,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>. -->
 <!doctype html>
 <html>
 <head>
-<title>DojoWidgetWeaver</title>
+<title>Dojo Widget Weaver</title>
 <style>
 body {
 	min-width:400px;
 	font-family: 'Tahoma';
 	font-size: 8pt;
+
 }
 ul {
 	list-style: none;
@@ -36,7 +37,7 @@ li{
 	vertical-align: top;
 }
 
-p{
+.maintitle {
 	
 	font-weight: bold;
 	margin:1px;
@@ -51,7 +52,6 @@ label{
 input[type="text"],input[type="number"], select,textarea{
 	margin:2px 0 2px 6px;
 	font-family: 'Tahoma';
-	font-size: 8pt;
 	padding-left: 2px;
 	width: 150px;
 }
@@ -75,23 +75,22 @@ form{
 }
 
 </style>
-<script type="text/javascript" src="main.js"></script>
 <script type="text/javascript" src="jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="templates.js"></script>
+<script type="text/javascript" src="main.js"></script>
 </head>
 <body>
-	<p>Dojo Widget Weaver</p>
-	<p>Generate widget code fast and clean</p>
-	
-		<fieldset style="border:1px">
+	<span class='maintitle'>Dojo Widget Weaver - Generate widget code fast and clean</span>
+		<fieldset style="border:1px" id="operations">
 			<ul class='horizontal'>
-				<li><input id="option1" type="radio" name="group1" >Widget Event Connect</input></li>
-				<li><input id="option2" type="radio" name="group1" >Publish a topic</input></li>
-				<li><input id="option3" type="radio" name="group1" >Subscrible to a topic</input></li>
-				<li><input id="option4" type="radio" name="group1" >Make an XHR call</input></li>
+				<li><input id="option1" type="radio" title='event' name="group1" >Widget Event Connect</input></li>
+				<li><input id="option2" type="radio" title='publish' name="group1" >Publish a topic</input></li>
+				<li><input id="option3" type="radio" title='subscribe' name="group1" >Subscrible to a topic</input></li>
+				<li><input id="option4" type="radio" title='xhrCall' name="group1" >Make an XHR call</input></li>
 			</ul>
 			<ul class='rightHorizontal'>
 				<li><input id="optionA" type="radio" name="group2" >&lt; dojo 1.7</input></li>
-				<li><input id="optionB" type="radio" name="group2" selected>&gt;= dojo 1.7</input></li>
+				<li><input id="optionB" type="radio" name="group2" checked>&gt;= dojo 1.7</input></li>
 			</ul>
 		</fieldset>
 
@@ -112,16 +111,16 @@ form{
 			<ul>
 				<li><label for="eventsValue">Events:</label>
 				<select id="eventsValue">
-					<option id="0">onclick</option>
-					<option id="1">onchange</option>
-					<option id="2">onkeypress</option>
-					<option id="3">onmouseover</option>
+					<option id="0" title='event'>onclick</option>
+					<option id="1" title='publish'>onchange</option>
+					<option id="2" title='subscribe'>onkeypress</option>
+					<option id="3" title='xhrCall'>onmouseover</option>
 				</select></li>
 				<li>
 					<label for="contextValue">Target:</label><input id="contextValue" type="text" />
 				</li>
 				<li>
-					<label for="arugmentValue">Argument:</label><input id="argumentValue" type="text" />
+					<label for="arugmentValue">Parameters:</label><input id="argumentValue" type="text" />
 				</li>
 				<li>
 					<label for="customCodeValue">Code:</label><textarea id="customCodeValue"></textarea>
@@ -135,6 +134,8 @@ form{
 			<ul>
 				<li><label for="topicValue">Topic:</label>
 				<input id="topicValue" type="text" /></li>
+				<li><label for="topicArgs">Arguments:</label>
+				<input id="topicArgs" type="text" /></li>
 			</ul>
 		</fieldset>
 	</form>
@@ -144,6 +145,10 @@ form{
 			<ul>
 				<li><label for="subscribeValue">Subscribe:</label>
 				<input id="subscribeValue" type="text" /></li>
+				<li><label for="subscribeParam">Parameters:</label>
+				<input id="subscribeParam" type="text" /></li>
+				<li><label for="subscribeBody">Body:</label>
+				<textarea id="subscribeBody" type="text"></textarea></li>
 			</ul>
 		</fieldset>
 	</form>
@@ -163,8 +168,13 @@ form{
 				<li><label for="urlValue">URL:</label>
 				<input id="urlValue" type="text" /></li>
 				<li><label for="methodValue">Method:</label>
-				<input id="methodValue" type="text" /></li>
-				<li><label for="bodyValue">Content:</label>
+				<select id="methodValue">
+					<option id="0">GET</option>
+					<option id="1">POST</option>
+					<option id="2">PUT</option>
+					<option id="3">HEAD</option>
+				</select></li>
+				<li><label for="bodyValue">Request Body:</label>
 				<input id="bodyValue" type="text"/></li>
 				<li><label for="handleAsValue">Handle As:</label>
 				<select id="handleAsValue">
@@ -175,15 +185,10 @@ form{
 					<option id="4">json-comment-optional</option>
 					<option id="5">json-comment-filtered</option>
 				</select></li>
-				<li><label for="formIdValue">Form Id:</label>
-				<input id="formIdValue" type="text" /></li>
-				<li><label for="syncValue">Sync:</label>
-				<select id="syncValue">
-					<option id="0">false</option>
-					<option id="1">true</option>
-				</select></li>
+				<li><label for="queryValue">Query String:</label>
+				<input id="queryValue" type="text" /></li>
 				<li><label for="timeoutValue">Time Out:</label>
-				<input id="timeoutValue" type="number"/></li>
+				<input id="timeoutValue" type="number" step=100/></li>
 				<li><label for="loadValue">Load Handler:</label>
 				<textarea id="loadValue"></textarea></li>
 				<li><label for="errorValue">Error Handler:</label>
@@ -193,7 +198,7 @@ form{
 	</form>
 	<p>Code</p>
 	<ul>
-		<li class='horizontal'><textarea id='generated' style='width:200px;height:100px'></textarea></li><li class='horizontal'>
+		<li class='horizontal'><textarea id='generated' style='width:400px;height:200px'></textarea></li><li class='horizontal'>
 		<button id='generate' class='generateButton' style='display:block'>Generate</button>
 		<button class='generateButton' >Copy</button>
 		</li>
